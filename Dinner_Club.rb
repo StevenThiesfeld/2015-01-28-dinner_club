@@ -1,5 +1,5 @@
 require "pry"
-require_relative '../2015-01-27-Checksplitter/Checksplitter'
+require_relative 'Checksplitter'
 
 # Class: Dinner_Club
 #
