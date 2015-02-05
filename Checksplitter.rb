@@ -38,7 +38,6 @@ class Checksplitter
   
   
   def total_the_check
-    binding.pry
     @total_check = ((check * tip) + check).round(2)
   end
   # Public: #cost_per_person
@@ -52,9 +51,9 @@ class Checksplitter
   def split_the_check
    @split_check = (total_check / diners).round(2)
   end
+  private
   
   def add_entry
     a = Entry.new({check: @check, tip: @tip, diners: @diners, total_check: @total_check, split_check: @split_check})
   end
 end
-binding.pry

@@ -1,5 +1,6 @@
 require "pry"
 require_relative 'Checksplitter'
+require_relative 'Dinner_Club_db.rb'
 
 # Class: Dinner_Club
 #
@@ -24,7 +25,9 @@ class Dinner_Club
   def initialize(*names)
     @event_list = Hash.new
     @members = Hash.new
-    names.each {|member| @members[member] = 0.0}
+    names.each {|member| @members[member] = 0.0
+      a = Members.new(member)
+    }
   end
   
   # Public: #update_event_list
@@ -57,6 +60,7 @@ class Dinner_Club
   
   def add_member(name)
     @members[name] = 0.0
+    a = Members.new(name)
   end 
   
  #  Public: add_check
@@ -73,9 +77,10 @@ class Dinner_Club
  #  Sets new values in @members
   
   def add_check(cost, diners)
-    diners.each do |name|
-      add_member(name) if members.has_key?(name) == false 
-      members[name] += cost
+    diners.each do |diner|
+      add_member(diner) if members.has_key?(diner) == false 
+      members[diner] += cost
+      Members.update(members[diner], diner)
     end
   end
   
@@ -97,7 +102,7 @@ class Dinner_Club
   def new_event(place, cost, tip, *diners)
     event = Checksplitter.new(diners.length, cost, tip)
     update_event_list(place, diners)
-    add_check(event.cost_per_person, diners)
+    add_check(event.split_check, diners)
   end
   
   # Public: treat
@@ -121,16 +126,16 @@ class Dinner_Club
     event = Checksplitter.new(diners.length, cost, tip)
     update_event_list(place, diners.push(treater))
     add_member(treater) if members.has_key?(treater) == false 
-    members[treater] += event.total_cost
+    members[treater] += event.total_check
   end
         
 end
 
-family = Dinner_Club.new('steven', 'steve', 'kim')
-
-family.new_event("Restaurant 1", 50.44, 20, 'steven', 'kim', 'kyle')
-
-family.treat('Restaurant 2', 64.39, 10, 'debbie', 'steven', 'kim', 'kyle', 'steve')
+# family = Dinner_Club.new('steven', 'steve', 'kim')
+#
+# family.new_event("Restaurant 1", 50.44, 20, 'steven', 'kim', 'kyle')
+#
+# family.treat('Restaurant 2', 64.39, 10, 'debbie', 'steven', 'kim', 'kyle', 'steve')
 
   
 binding.pry
