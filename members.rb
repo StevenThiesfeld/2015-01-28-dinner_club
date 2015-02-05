@@ -9,6 +9,9 @@ class Members
     DATABASE2.execute("UPDATE members SET spent = '#{value}' WHERE name = '#{diner}' ")
   end
   
+  def self.all
+    DATABASE2.execute("SELECT name FROM members")
+  end
   private
   def save
     DATABASE2.execute("INSERT INTO members (name, spent) VALUES ('#{@name}', 0)")

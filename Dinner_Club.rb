@@ -26,8 +26,9 @@ class Dinner_Club
     @event_list = Hash.new
     @members = Hash.new
     names.each {|member| @members[member] = 0.0
-      a = Members.new(member)
+      m = Members.new(member)
     }
+    
   end
   
   # Public: #update_event_list
