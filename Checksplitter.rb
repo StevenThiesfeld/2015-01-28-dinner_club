@@ -1,3 +1,5 @@
+require_relative 'Checksplitter_db'
+require 'pry'
 # Class: Checksplitter
 #
 # Calculates a tip and splits a check between people
@@ -15,12 +17,15 @@
 # #cost_per_person
 
 class Checksplitter
-  attr_reader :diners, :cost, :tip, :total_cost, :cost_per_person
+  attr_reader :diners, :check, :tip, :total_check, :split_check
    
-  def initialize(diners, cost, tip)
+  def initialize(diners, check, tip)
     @diners = diners
-    @cost = cost
+    @check = check
     @tip = tip.to_f / 100
+    total_the_check
+    split_the_check
+    add_entry
   end
   
   # Public: #total_cost
@@ -32,10 +37,10 @@ class Checksplitter
   # Sets @total_cost
   
   
-  def total_cost
-    @total_cost = ((cost * tip) + cost).round(2)
+  def total_the_check
+    binding.pry
+    @total_check = ((check * tip) + check).round(2)
   end
-  
   # Public: #cost_per_person
   # Splits the check between diners
   # Returns:
@@ -44,8 +49,12 @@ class Checksplitter
   # State Changes:
   # Sets @cost_per_person
   
-  def cost_per_person
-   @cost_per_person = (total_cost / diners).round(2)
+  def split_the_check
+   @split_check = (total_check / diners).round(2)
   end
   
+  def add_entry
+    a = Entry.new({check: @check, tip: @tip, diners: @diners, total_check: @total_check, split_check: @split_check})
+  end
 end
+binding.pry
